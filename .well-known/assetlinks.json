@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.flystraightai.implica",
+      "sha256_cert_fingerprints": [
+        "5B:22:D2:E0:45:EE:87:7F:21:27:90:5E:9C:66:56:6A:B9:62:B7:9A:EB:C6:EC:DF:01:44:5A:7F:7C:E9:7B:3E"
+      ]
+    }
+  }
+]

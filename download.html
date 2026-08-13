@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting… — Implica</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#08080a" />
+    <link rel="icon" href="assets/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Universal download link (e.g. QR codes): sends iOS to the App Store,
+         Android to Play, and desktop back to the homepage. Runs blocking, as
+         early as possible, so the redirect fires before anything paints. -->
+    <script src="download.js"></script>
+    <script>
+      (function () {
+        var stores = window.ImplicaStores;
+        var platform = stores.detectPlatform();
+        var dest =
+          platform === "ios" ? stores.IOS_URL : platform === "android" ? stores.ANDROID_URL : "/";
+        window.location.replace(dest);
+      })();
+    </script>
+    <noscript><meta http-equiv="refresh" content="0; url=/" /></noscript>
+  </head>
+  <body id="top">
+    <div class="page">
+      <main id="main">
+        <section class="redirect-screen">
+          <img src="assets/icon.png" alt="" width="56" height="56" class="redirect-icon" />
+          <p class="redirect-text">Taking you to the app…</p>
+          <div class="redirect-actions">
+            <a class="btn btn-gold btn-lg" href="https://apps.apple.com/app/id6759221897"
+              >Download for iPhone</a
+            >
+            <a
+              class="btn btn-ghost btn-lg"
+              href="https://play.google.com/store/apps/details?id=com.flystraightai.implica"
+              >Get it on Android</a
+            >
+          </div>
+          <a class="redirect-home" href="/">Or visit implica.app</a>
+        </section>
+      </main>
+    </div>
+
+    <style>
+      .redirect-screen {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px;
+        text-align: center;
+      }
+      .redirect-icon {
+        border-radius: 22%;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      }
+      .redirect-text {
+        font-family: var(--sans);
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .redirect-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 8px;
+      }
+      .redirect-home {
+        margin-top: 12px;
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--dim);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .redirect-home:hover {
+        color: var(--muted);
+      }
+    </style>
+  </body>
+</html>

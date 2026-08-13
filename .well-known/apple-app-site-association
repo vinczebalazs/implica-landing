@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["9GL3U4233T.com.flystraightai.implica"],
+        "components": [
+          {
+            "/": "/story/*/*",
+            "comment": "Matches /story/:scope/:eventId"
+          }
+        ]
+      }
+    ]
+  }
+}

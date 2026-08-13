@@ -1,0 +1,1500 @@
+/* ==========================================================================
+   Implica — landing page
+   Translated from the "Implica Landing 1a" design (desktop) and
+   "Implica Landing 1a Mobile" (viewports below 960px).
+   ========================================================================== */
+
+/* --- Tokens --------------------------------------------------------------- */
+
+:root {
+  /* Surfaces */
+  --bg: #08080a;
+  --surface: #0f0f12;
+  --surface-2: #111114;
+  --surface-3: #131317;
+  --surface-4: #17171c;
+  --panel: #1a1a20;
+  --panel-2: #1b1b21;
+  --chip-bg: #141418;
+  --ink: #0a0a0b;
+
+  /* Accents */
+  --gold: #f9d460;
+  --gold-bright: #fbe497;
+  --gold-soft: #fbdc7c;
+  --ice: #c5dee9;
+
+  /* Text */
+  --text: #f2f1ee;
+  --text-bright: #f6f5f2;
+  --text-2: #e6e5e2;
+  --text-3: #c8c8ce;
+  --text-4: #d4d4d8;
+  --muted: #a8a8b0;
+  --muted-2: #8a8a90;
+  --dim: #565660;
+  --dim-2: #4a4a52;
+
+  /* Lines */
+  --hair: rgba(255, 255, 255, 0.07);
+  --hair-2: rgba(255, 255, 255, 0.09);
+  --hair-3: rgba(255, 255, 255, 0.12);
+  --stroke: rgba(255, 255, 255, 0.18);
+  --stroke-hover: rgba(255, 255, 255, 0.36);
+  --gold-line: rgba(249, 212, 96, 0.22);
+  --gold-line-2: rgba(249, 212, 96, 0.3);
+  --ice-line: rgba(197, 222, 234, 0.2);
+
+  /* Type */
+  --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --sans:
+    "Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Layout */
+  --wrap: 1180px;
+  --pad: 40px;
+  --stack-scale: 1;
+}
+
+/* --- Base ----------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden; /* fallback for browsers without overflow: clip */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The decorative glows are deliberately wider than the viewport. `clip` bounds
+   them horizontally without creating a scroll container, so the sticky header
+   keeps working. */
+.page {
+  overflow-x: clip;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--gold-bright);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+figure {
+  margin: 0;
+}
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+mark {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 100;
+  padding: 10px 18px;
+  border-radius: 100px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+.skip-link:focus {
+  left: 16px;
+  color: var(--ink);
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.glow {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(249, 212, 96, 0.13),
+    rgba(249, 212, 96, 0) 62%
+  );
+}
+
+/* --- Shared primitives ---------------------------------------------------- */
+
+.mono-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  color: var(--text-3);
+}
+
+.label-gold {
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: var(--gold);
+}
+.label-dim {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--dim);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  padding-bottom: 16px;
+}
+.eyebrow-gold {
+  color: var(--gold);
+}
+.eyebrow-ice {
+  color: var(--ice);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.dot-gold {
+  background: var(--gold);
+}
+.dot-ice {
+  background: var(--ice);
+}
+.dot-sm {
+  width: 5px;
+  height: 5px;
+  border-radius: 3px;
+}
+
+.panel {
+  background: var(--surface-2);
+  border: 1px solid var(--hair-2);
+  border-radius: 26px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: var(--muted-2);
+}
+.chip-sm {
+  padding: 6px 14px;
+  border-color: rgba(255, 255, 255, 0.16);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+}
+
+/* --- Buttons -------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  border-radius: 100px;
+  font-family: var(--sans);
+  white-space: nowrap;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+.btn-icon {
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+}
+.btn-gold:hover {
+  background: var(--gold-bright);
+  color: var(--ink);
+}
+
+.btn-ghost {
+  border: 1px solid var(--stroke);
+  color: var(--text);
+  font-weight: 600;
+}
+.btn-ghost:hover {
+  border-color: var(--stroke-hover);
+  color: var(--text);
+}
+
+.btn-sm {
+  height: 38px;
+  padding-inline: 20px;
+  font-size: 13px;
+}
+.btn-lg {
+  height: 52px;
+  padding-inline: 24px;
+  font-size: 15px;
+}
+
+.btn-store {
+  height: 56px;
+  padding-inline: 28px;
+  gap: 12px;
+  border-radius: 12px;
+}
+.store-label {
+  text-align: left;
+}
+.store-kicker {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  opacity: 0.7;
+}
+.store-kicker-dim {
+  opacity: 1;
+  color: var(--muted-2);
+}
+.store-name {
+  display: block;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+/* --- Header --------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  --hdr-progress: 0;
+  background: rgba(8, 8, 10, var(--hdr-progress));
+  border-bottom: 1px solid rgba(255, 255, 255, calc(0.07 * var(--hdr-progress)));
+  backdrop-filter: blur(calc(var(--hdr-progress) * 14px));
+  -webkit-backdrop-filter: blur(calc(var(--hdr-progress) * 14px));
+  transition:
+    background-color 0.15s linear,
+    border-color 0.15s linear,
+    backdrop-filter 0.15s linear;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-block: 18px;
+}
+
+.logo img {
+  width: 112px;
+  height: 25px;
+  transform: translateY(-14%);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-left: auto;
+}
+.nav-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  color: var(--muted-2);
+  transition: color 0.18s ease;
+}
+.nav-link:hover {
+  color: var(--text-3);
+}
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  padding: 88px 0 116px;
+}
+
+.glow-hero {
+  left: 50%;
+  top: -380px;
+  width: 1500px;
+  height: 1000px;
+  margin-left: -750px;
+}
+
+.hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+
+.hero-title {
+  margin-bottom: 22px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(52px, 6.6vw, 78px);
+  line-height: 1.02;
+  letter-spacing: -0.5px;
+  color: var(--text-bright);
+  text-wrap: pretty;
+}
+
+.lede {
+  max-width: 520px;
+  font-size: 19px;
+  line-height: 1.62;
+  color: var(--muted);
+}
+.lede + .lede {
+  margin-top: 1.62em;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 38px;
+  flex-wrap: wrap;
+}
+
+/* --- Hero card stack ------------------------------------------------------ */
+
+.card-stack {
+  position: relative;
+  min-width: 0;
+}
+
+/* `zoom` (rather than a transform) so the scaled stack also takes up the
+   smaller layout box — otherwise its 470px min-content squeezes the copy
+   column on narrower desktops. */
+.stack-inner {
+  position: relative;
+  width: 470px;
+  height: 520px;
+  margin-inline: auto;
+  zoom: var(--stack-scale);
+}
+
+.stack-layer {
+  position: absolute;
+  border-radius: 28px;
+}
+
+.stack-back {
+  left: 64px;
+  top: 52px;
+  width: 392px;
+  height: 452px;
+  background: var(--surface);
+  border: 1px solid var(--hair);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: rotate(4deg);
+}
+.stack-mid {
+  left: 44px;
+  top: 30px;
+  width: 392px;
+  height: 452px;
+  background: var(--surface-3);
+  border: 1px solid var(--hair-2);
+  box-shadow: 0 34px 70px rgba(0, 0, 0, 0.65);
+  transform: rotate(-2deg);
+}
+.stack-front {
+  left: 16px;
+  top: 0;
+  width: 400px;
+  height: 470px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-4);
+  border: 1px solid var(--hair-3);
+  box-shadow: 0 44px 90px rgba(0, 0, 0, 0.8);
+  transform: rotate(-2.5deg);
+}
+
+.story-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.story-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.story-kicker {
+  font-weight: 600;
+  font-size: 12px;
+}
+.story-count {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--muted-2);
+}
+
+.pill-new {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+  padding: 3px 8px 2px;
+  border: 1px solid var(--gold);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 1.2px;
+  color: var(--gold);
+}
+
+.story-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+.story-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 38px;
+  line-height: 1.1;
+  color: var(--text);
+}
+.story-dek {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.story-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.story-more {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.story-more .mono-label {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  color: var(--gold);
+}
+.story-arrow {
+  font-size: 15px;
+  color: var(--muted-2);
+}
+
+/* --- Showcase sections ---------------------------------------------------- */
+
+.showcase {
+  display: grid;
+  gap: clamp(36px, 6vw, 72px);
+  align-items: center;
+  padding-block: 76px 100px;
+  scroll-margin-top: 80px;
+}
+#context {
+  grid-template-columns: 0.95fr 1.05fr;
+}
+#glossary,
+#ask {
+  grid-template-columns: 1.05fr 0.95fr;
+}
+
+.section-title {
+  margin-bottom: 20px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 54px);
+  line-height: 1.06;
+  color: var(--text-bright);
+  text-wrap: pretty;
+}
+.section-lede {
+  max-width: 440px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 32px;
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.term-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+/* Article mock */
+.article-card {
+  padding: 30px 32px;
+}
+.article-card-tall {
+  padding: 30px 32px 42px;
+}
+
+.article-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.article-head .label-dim {
+  margin-left: auto;
+}
+
+.article-title {
+  margin-bottom: 18px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.12;
+  color: var(--text);
+}
+.article-standfirst {
+  margin-bottom: 14px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.56;
+  color: var(--text-3);
+}
+.article-standfirst-plain {
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-4);
+  margin-bottom: 16px;
+}
+.article-standfirst-plain:last-child {
+  margin-bottom: 0;
+  line-height: 1.55;
+}
+.article-body {
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.mark-glow {
+  box-shadow: 0 0 0 6px rgba(249, 212, 96, 0.18);
+}
+
+/* Context annotations */
+.context-visual {
+  position: relative;
+}
+
+.annotation {
+  position: relative;
+  z-index: 2;
+  padding: 26px 30px;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+}
+.annotation .eyebrow {
+  margin-bottom: 14px;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+}
+.annotation .dot {
+  width: 7px;
+  height: 7px;
+}
+.annotation-text {
+  font-size: 16px;
+  line-height: 1.55;
+  color: #eceae4;
+}
+
+.annotation-gold {
+  margin: -14px -30px 0 30px;
+  background: linear-gradient(150deg, #1d1d18, #1a1a20 60%);
+  border: 1px solid var(--gold-line);
+  transform: rotate(1.6deg);
+}
+.annotation-ice {
+  margin: 16px 34px 0 -26px;
+  background: linear-gradient(150deg, #1a1e21, #1a1a20 60%);
+  border: 1px solid var(--ice-line);
+  transform: rotate(-1.4deg);
+}
+
+/* Glossary popover */
+.glossary-visual {
+  position: relative;
+  padding-bottom: 200px;
+}
+.glossary-popover {
+  position: absolute;
+  left: -34px;
+  right: 32px;
+  bottom: 0;
+  z-index: 3;
+  padding: 26px 30px 28px;
+  border-radius: 22px;
+  background: var(--panel);
+  border: 1px solid var(--gold-line-2);
+  box-shadow: 0 36px 80px rgba(0, 0, 0, 0.85);
+}
+.popover-arrow {
+  position: absolute;
+  left: 120px;
+  top: -9px;
+  width: 16px;
+  height: 16px;
+  background: var(--panel);
+  border-left: 1px solid var(--gold-line-2);
+  border-top: 1px solid var(--gold-line-2);
+  transform: rotate(45deg);
+}
+.glossary-popover .eyebrow {
+  margin-bottom: 12px;
+  font-size: 10px;
+}
+.popover-term {
+  margin-bottom: 12px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.08;
+  color: var(--text);
+}
+.popover-def {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text-3);
+}
+
+/* Ask / chat mock */
+.chat-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.chat-context {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 14px;
+  background: var(--chip-bg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+.chat-context-bar {
+  width: 6px;
+  height: 36px;
+  border-radius: 3px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.chat-context-text {
+  flex: 1;
+  overflow: hidden;
+}
+.chat-context-label {
+  margin-bottom: 3px;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  color: var(--muted-2);
+}
+.chat-context-title {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--text-2);
+}
+
+.bubble {
+  padding: 18px 24px;
+  border-radius: 22px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.bubble-user {
+  align-self: flex-end;
+  max-width: 82%;
+  background: linear-gradient(140deg, #26261b, #1e1e17);
+  border: 1px solid rgba(249, 212, 96, 0.28);
+  color: #ece9dd;
+}
+.bubble-short {
+  max-width: 70%;
+}
+
+.bubble-answer {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 26px;
+  background: var(--panel-2);
+  border: 1px solid var(--hair-3);
+}
+.answer-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: rgba(249, 212, 96, 0.15);
+  color: var(--gold-soft);
+  flex-shrink: 0;
+}
+.answer-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #e6e5e0;
+}
+.source-chips {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.ask-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 380px;
+  margin-top: 32px;
+  padding: 6px 6px 6px 20px;
+  background: var(--chip-bg);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 100px;
+}
+.ask-placeholder {
+  flex: 1;
+  font-size: 15px;
+  color: var(--dim);
+}
+.ask-send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: var(--gold);
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+/* --- Feature grid --------------------------------------------------------- */
+
+.features {
+  padding-block: 56px 96px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.feature-card {
+  padding: 32px 34px 34px;
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 24px;
+  border-radius: 13px;
+}
+.feature-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.icon-gold {
+  background: rgba(249, 212, 96, 0.12);
+  color: var(--gold);
+}
+.icon-ice {
+  background: rgba(197, 222, 234, 0.12);
+  color: var(--ice);
+}
+
+.feature-title {
+  margin-bottom: 12px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--text);
+}
+.feature-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.mobile-only-card {
+  display: none;
+}
+
+/* --- Download CTA --------------------------------------------------------- */
+
+.cta-outer {
+  padding-inline: var(--pad);
+  scroll-margin-top: 80px;
+}
+
+.cta {
+  position: relative;
+  padding: 88px 40px 92px;
+  border-radius: 34px;
+  background: var(--surface);
+  border: 1px solid rgba(249, 212, 96, 0.18);
+  overflow: hidden;
+  text-align: center;
+}
+.glow-cta {
+  left: 50%;
+  top: -320px;
+  width: 1100px;
+  height: 760px;
+  margin-left: -550px;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(249, 212, 96, 0.16),
+    rgba(249, 212, 96, 0) 62%
+  );
+}
+.cta-inner {
+  position: relative;
+}
+
+.cta-title {
+  margin-bottom: 18px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(42px, 5.2vw, 60px);
+  line-height: 1.04;
+  color: var(--text-bright);
+}
+.cta-lede {
+  max-width: 480px;
+  margin: 0 auto 40px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.store-buttons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --- Legal pages (Terms / Privacy) ----------------------------------------- */
+
+.legal {
+  padding: 64px 0 120px;
+}
+
+.legal-header {
+  margin-bottom: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.legal-title {
+  margin-bottom: 14px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(38px, 6vw, 54px);
+  line-height: 1.06;
+  color: var(--text-bright);
+}
+
+.legal-updated {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+.legal-body {
+  max-width: 720px;
+}
+
+.legal-body h2 {
+  margin: 48px 0 16px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.25;
+  color: var(--text-bright);
+}
+.legal-body section:first-of-type h2 {
+  margin-top: 0;
+}
+
+.legal-body p {
+  margin-bottom: 16px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.legal-body strong {
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+.legal-body ul {
+  margin: 0 0 16px;
+  padding-left: 22px;
+  list-style: disc;
+}
+.legal-body li {
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.legal-body li::marker {
+  color: var(--gold);
+}
+
+.legal-body a {
+  color: var(--gold);
+}
+.legal-body a:hover {
+  color: var(--gold-bright);
+}
+
+.legal-body section + section {
+  padding-top: 8px;
+}
+
+@media (max-width: 999px) {
+  .legal {
+    padding: 40px 0 72px;
+  }
+  .legal-header {
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+  }
+  .legal-body h2 {
+    margin: 36px 0 14px;
+    font-size: 22px;
+  }
+  .legal-body p,
+  .legal-body li {
+    font-size: 15px;
+  }
+}
+
+/* --- Footer --------------------------------------------------------------- */
+
+.site-footer {
+  margin-top: 60px;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  padding-block: 44px 54px;
+  border-top: 1px solid var(--hair);
+}
+.footer-logo {
+  width: 96px;
+  height: 21px;
+  opacity: 0.7;
+  transform: translateY(-14%);
+}
+.copyright {
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  color: var(--dim-2);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+}
+.footer-links a {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  color: var(--dim);
+  transition: color 0.18s ease;
+}
+.footer-links a:hover {
+  color: var(--muted);
+}
+.footer-contact {
+  display: none;
+}
+
+/* --- Narrow desktop: scale the hero card stack to fit its column ----------- */
+
+@media (min-width: 1000px) and (max-width: 1199px) {
+  :root {
+    --stack-scale: 0.82;
+  }
+}
+
+/* ==========================================================================
+   Mobile — "Implica Landing 1a Mobile"
+
+   Below 1000px the design switches to the mobile composition. It is drawn at
+   390px, so the content column is capped rather than stretched on tablets.
+   ========================================================================== */
+
+@media (max-width: 999px) {
+  :root {
+    --wrap: 560px;
+    --pad: 24px;
+    /* Scales the whole hero card stack (art + type together) so the deck can
+       give back height on shorter phones instead of pushing the copy and CTAs
+       past the fold. Tuned per viewport height below. */
+    --deck-scale: 0.88;
+  }
+
+  html {
+    scroll-padding-top: 60px;
+  }
+
+  .desktop-only,
+  .desktop-inline {
+    display: none;
+  }
+
+  /* Header ---------------------------------------------------------------- */
+
+  .site-header {
+    border-bottom: 0;
+  }
+
+  .header-inner {
+    gap: 10px 16px;
+    flex-wrap: wrap;
+    padding-block: 20px;
+    padding-inline: 16px;
+  }
+
+  .logo img {
+    width: 88px;
+    height: 19px;
+  }
+
+  .nav {
+    gap: 12px;
+  }
+
+  .nav-link {
+    font-size: 9px;
+    letter-spacing: 0.9px;
+  }
+
+  .header-cta {
+    padding-inline: 14px;
+    font-size: 12px;
+    height: 34px;
+  }
+
+  /* Hero ------------------------------------------------------------------ */
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100svh - var(--header-h, 74px));
+    padding: 24px 0;
+  }
+
+  .glow-hero {
+    top: -340px;
+    width: 800px;
+    height: 800px;
+    margin-left: -400px;
+  }
+
+  .hero-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .card-stack {
+    order: -1;
+  }
+
+  .hero-copy {
+    padding-top: 14px;
+  }
+
+  .hero-title {
+    margin-bottom: 16px;
+    font-size: clamp(34px, 11.3vw, 44px);
+    letter-spacing: -0.4px;
+  }
+
+  .lede {
+    max-width: none;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: nowrap;
+  }
+  .hero-actions .btn {
+    flex: 1;
+    gap: 8px;
+    height: 44px;
+    padding-inline: 8px;
+    font-size: 13px;
+  }
+  .hero-actions .btn-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Hero card stack ------------------------------------------------------- */
+
+  /* Height comes from the zoomed `.stack-inner` so `--deck-scale` is the single
+     knob controlling how much vertical room the deck takes. */
+  .card-stack {
+    height: auto;
+  }
+
+  /* 372px = the lowest card edge (back: 24 + 344) plus a little room for its
+     shadow. Trimming the dead space keeps the deck's box honest so the hero
+     centres on the art rather than on empty pixels below it. */
+  .stack-inner {
+    width: 100%;
+    height: 372px;
+    zoom: var(--deck-scale);
+  }
+
+  .stack-layer {
+    border-radius: 26px;
+  }
+
+  .stack-back {
+    left: 50%;
+    margin-left: -122px;
+    top: 24px;
+    width: 272px;
+    height: 344px;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6);
+  }
+  .stack-mid {
+    left: 50%;
+    margin-left: -136px;
+    top: 13px;
+    width: 272px;
+    height: 344px;
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.65);
+  }
+  .stack-front {
+    left: 50%;
+    margin-left: -154px;
+    top: 0;
+    width: 280px;
+    height: 356px;
+    padding: 22px;
+    box-shadow: 0 36px 80px rgba(0, 0, 0, 0.8);
+  }
+
+  .story-meta {
+    gap: 7px;
+  }
+  .story-kicker {
+    font-size: 11px;
+    letter-spacing: 1.3px;
+  }
+  .story-meta .dot {
+    width: 6px;
+    height: 6px;
+  }
+  .pill-new {
+    margin-left: 2px;
+    padding: 3px 7px 2px;
+    font-size: 8px;
+    letter-spacing: 1.1px;
+  }
+
+  .story-body {
+    gap: 13px;
+  }
+  .story-title {
+    font-size: 29px;
+  }
+  .story-dek {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .story-foot {
+    padding-top: 14px;
+  }
+  .story-more {
+    gap: 7px;
+  }
+  .story-more .mono-label {
+    font-size: 11px;
+  }
+  .story-arrow {
+    font-size: 14px;
+  }
+
+  /* The alternating showcase sections are desktop-only in this design. */
+  .showcase {
+    display: none;
+  }
+
+  /* Feature grid ---------------------------------------------------------- */
+
+  .features {
+    padding-block: 48px 0;
+  }
+
+  .feature-grid {
+    gap: 12px;
+  }
+
+  .mobile-only-card {
+    display: block;
+  }
+
+  .feature-card {
+    padding: 20px 18px 22px;
+    border-radius: 20px;
+  }
+
+  .feature-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 16px;
+    border-radius: 11px;
+  }
+  .feature-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .feature-title {
+    margin-bottom: 8px;
+    font-size: 23px;
+    line-height: 1.08;
+  }
+  .feature-text {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* CTA ------------------------------------------------------------------- */
+
+  .cta-outer {
+    padding: 44px 16px 0;
+  }
+
+  .cta {
+    padding: 48px 24px 52px;
+    border-radius: 28px;
+  }
+
+  .glow-cta {
+    top: -260px;
+    width: 700px;
+    height: 600px;
+    margin-left: -350px;
+  }
+
+  .cta-title {
+    margin-bottom: 12px;
+    font-size: clamp(30px, 9.7vw, 38px);
+  }
+  .cta-lede {
+    margin-bottom: 26px;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .store-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .store-buttons .btn {
+    width: 100%;
+  }
+
+  /* Footer ---------------------------------------------------------------- */
+
+  .site-footer {
+    margin-top: 40px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-block: 26px 34px;
+  }
+  .footer-logo {
+    width: 82px;
+    height: 18px;
+  }
+
+  .footer-links {
+    order: 2;
+    gap: 20px;
+    margin-left: 0;
+  }
+  .copyright {
+    order: 3;
+  }
+
+  .footer-email {
+    display: none;
+  }
+  .footer-contact {
+    display: inline;
+  }
+}
+
+/* Shorter phones have less room between the header and the fold, so the deck
+   gives height back rather than pushing the CTAs off-screen. Stepped gently so
+   the hero's top/bottom gaps grow smoothly with the viewport instead of
+   lurching at a breakpoint. */
+@media (max-width: 999px) and (max-height: 700px) {
+  :root {
+    --deck-scale: 0.72;
+  }
+}
+
+@media (max-width: 999px) and (min-height: 701px) and (max-height: 800px) {
+  :root {
+    --deck-scale: 0.82;
+  }
+}
+
+@media (max-width: 999px) and (min-height: 801px) and (max-height: 899px) {
+  :root {
+    --deck-scale: 0.92;
+  }
+}
+
+@media (max-width: 999px) and (min-height: 900px) {
+  :root {
+    --deck-scale: 1;
+  }
+}
+
+@media (min-width: 1000px) {
+  .mobile-only {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}

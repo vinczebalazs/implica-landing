@@ -1,0 +1,34 @@
+{
+  "trailingSlash": false,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/og/:scope/:file",
+      "destination": "https://api.implica.app/og/:scope/:file"
+    },
+    {
+      "source": "/story/:scope/:eventId",
+      "destination": "/api/story?scope=:scope&eventId=:eventId"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/apple-app-site-association",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "source": "/.well-known/assetlinks.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    }
+  ]
+}
