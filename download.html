@@ -6,9 +6,11 @@
     <title>Redirecting… — Implica</title>
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#08080a" />
-    <link rel="icon" href="assets/icon.png" type="image/png" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="assets/icon.png" />
     <link rel="stylesheet" href="styles.css" />
+
+    <script src="analytics.js"></script>
 
     <!-- Universal download link (e.g. QR codes): sends iOS to the App Store,
          Android to Play, and desktop back to the homepage. Runs blocking, as
@@ -16,6 +18,34 @@
     <script src="download.js"></script>
     <script>
       (function () {
+        // Ad conversion tracking, mirrors implica-web's /download-app: fire
+        // and forget with keepalive so the requests survive the redirect
+        // below.
+        fetch("/api/capi", {
+          method: "POST",
+          keepalive: true,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            eventSourceUrl: window.location.href,
+            fbp: document.cookie.match(/(?:^|;\s*)_fbp=([^;]*)/)?.[1] ?? null,
+            fbc: document.cookie.match(/(?:^|;\s*)_fbc=([^;]*)/)?.[1] ?? null,
+          }),
+        }).catch(function () {});
+
+        var qclid = new URLSearchParams(window.location.search).get("qclid");
+        if (qclid) {
+          fetch("/api/quora-capi", {
+            method: "POST",
+            keepalive: true,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              qclid: qclid,
+              eventSourceUrl: window.location.href,
+              language: navigator.language,
+            }),
+          }).catch(function () {});
+        }
+
         var stores = window.ImplicaStores;
         var platform = stores.detectPlatform();
         var dest =
