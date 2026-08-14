@@ -19,7 +19,7 @@
     <script>
       (function () {
         // Ad conversion tracking, mirrors implica-web's /download-app: fire
-        // and forget with keepalive so the requests survive the redirect
+        // and forget with keepalive so the request survives the redirect
         // below.
         fetch("/api/capi", {
           method: "POST",
@@ -31,20 +31,6 @@
             fbc: document.cookie.match(/(?:^|;\s*)_fbc=([^;]*)/)?.[1] ?? null,
           }),
         }).catch(function () {});
-
-        var qclid = new URLSearchParams(window.location.search).get("qclid");
-        if (qclid) {
-          fetch("/api/quora-capi", {
-            method: "POST",
-            keepalive: true,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              qclid: qclid,
-              eventSourceUrl: window.location.href,
-              language: navigator.language,
-            }),
-          }).catch(function () {});
-        }
 
         var stores = window.ImplicaStores;
         var platform = stores.detectPlatform();

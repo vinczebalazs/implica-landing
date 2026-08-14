@@ -1197,9 +1197,9 @@ mark {
   .hero {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: calc(100svh - var(--header-h, 74px));
-    padding: 24px 0;
+    padding: 8px 0 24px;
   }
 
   .glow-hero {
@@ -1220,7 +1220,7 @@ mark {
   }
 
   .hero-copy {
-    padding-top: 14px;
+    padding-top: 32px;
   }
 
   .hero-title {
