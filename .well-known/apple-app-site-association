@@ -8,6 +8,10 @@
           {
             "/": "/story/*/*",
             "comment": "Matches /story/:scope/:eventId"
+          },
+          {
+            "/": "/redeem-code",
+            "comment": "Matches /redeem-code?code=..."
           }
         ]
       }

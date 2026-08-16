@@ -9,6 +9,10 @@
     {
       "source": "/story/:scope/:eventId",
       "destination": "/api/story?scope=:scope&eventId=:eventId"
+    },
+    {
+      "source": "/redeem-code",
+      "destination": "/api/redeem"
     }
   ],
   "headers": [

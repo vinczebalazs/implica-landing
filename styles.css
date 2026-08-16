@@ -346,6 +346,18 @@ mark {
     backdrop-filter 0.15s linear;
 }
 
+/* Pages with no hero glow behind the header (legal pages) keep it fully opaque
+   instead of fading in on scroll. */
+.site-header.is-solid {
+  --hdr-progress: 1;
+  background: #08080a;
+  /* Two classes, so this outranks the mobile `border-bottom: 0` further down
+     and the rule keeps its border at every width. */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 .header-inner {
   display: flex;
   align-items: center;
