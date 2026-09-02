@@ -36,6 +36,54 @@
         var platform = stores.detectPlatform();
         var dest =
           platform === "ios" ? stores.IOS_URL : platform === "android" ? stores.ANDROID_URL : "/";
+
+        // PostHog conversion tracking, same reasoning as the Facebook call
+        // above: analytics.js only queues posthog.capture() calls until its
+        // real library finishes loading in the background, and the redirect
+        // fires long before that happens for iOS/Android taps — so the queued
+        // call would just be lost with the tab. Posting straight to PostHog's
+        // HTTP capture endpoint with keepalive survives the redirect instead.
+        // UTM params are pulled off the URL by hand because we're bypassing
+        // the library, which is what normally attaches them automatically.
+        (function () {
+          var PH_KEY = "phc_24Ns2up7p5rSlmBpACzKd66vBZ83Z6WMaUqPeLSC1hx";
+          var STORAGE_KEY = "ph_" + PH_KEY + "_posthog";
+          var distinctId;
+          try {
+            distinctId = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null")?.distinct_id;
+          } catch (e) {}
+          if (!distinctId) {
+            distinctId =
+              window.crypto && crypto.randomUUID
+                ? crypto.randomUUID()
+                : "anon-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+            // Stored under the same key posthog-js uses, so if its library
+            // does finish loading (the desktop fallback stays on-site long
+            // enough for that) it reuses this id instead of minting a second
+            // one for the same visit.
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify({ distinct_id: distinctId }));
+            } catch (e) {}
+          }
+
+          var properties = { $current_url: window.location.href, platform: platform };
+          new URLSearchParams(window.location.search).forEach(function (value, key) {
+            if (key.indexOf("utm_") === 0) properties[key] = value;
+          });
+
+          fetch("https://t.implica.app/capture/", {
+            method: "POST",
+            keepalive: true,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              api_key: PH_KEY,
+              event: "download_redirect",
+              distinct_id: distinctId,
+              properties: properties,
+            }),
+          }).catch(function () {});
+        })();
+
         window.location.replace(dest);
       })();
     </script>
