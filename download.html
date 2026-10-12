@@ -18,27 +18,12 @@
     <script src="download.js"></script>
     <script>
       (function () {
-        // Ad conversion tracking, mirrors implica-web's /download-app: fire
-        // and forget with keepalive so the request survives the redirect
-        // below.
-        fetch("/api/capi", {
-          method: "POST",
-          keepalive: true,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            eventSourceUrl: window.location.href,
-            fbp: document.cookie.match(/(?:^|;\s*)_fbp=([^;]*)/)?.[1] ?? null,
-            fbc: document.cookie.match(/(?:^|;\s*)_fbc=([^;]*)/)?.[1] ?? null,
-          }),
-        }).catch(function () {});
-
         var stores = window.ImplicaStores;
         var platform = stores.detectPlatform();
         var dest =
           platform === "ios" ? stores.IOS_URL : platform === "android" ? stores.ANDROID_URL : "/";
 
-        // PostHog conversion tracking, same reasoning as the Facebook call
-        // above: analytics.js only queues posthog.capture() calls until its
+        // PostHog conversion tracking. analytics.js only queues posthog.capture() calls until its
         // real library finishes loading in the background, and the redirect
         // fires long before that happens for iOS/Android taps — so the queued
         // call would just be lost with the tab. Posting straight to PostHog's
