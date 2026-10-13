@@ -37,3 +37,30 @@ posthog.init("phc_24Ns2up7p5rSlmBpACzKd66vBZ83Z6WMaUqPeLSC1hx", {
   api_host: "https://t.implica.app",
   person_profiles: "identified_only",
 });
+
+/* Human check for click counting. Email security scanners open newsletter links in a real
+   browser on a server, so on paper a scanner's visit looks like a reader's. What they don't do
+   is scroll, move a mouse, tap, or type. The first such input on a page sends one
+   `visitor_interacted`, and a computer visit to /download counts as a real click only if the
+   same visitor sends one afterwards. /download itself redirects before anyone can interact, so
+   phone clicks are judged there instead (see `automation` in download.html). */
+(function () {
+  var EVENTS = ["pointermove", "pointerdown", "scroll", "keydown", "touchstart"];
+  var sent = false;
+
+  function onInteraction(event) {
+    if (sent) return;
+    sent = true;
+    EVENTS.forEach(function (name) {
+      window.removeEventListener(name, onInteraction, true);
+    });
+    posthog.capture("visitor_interacted", {
+      interaction: event.type,
+      automation: navigator.webdriver === true,
+    });
+  }
+
+  EVENTS.forEach(function (name) {
+    window.addEventListener(name, onInteraction, { capture: true, passive: true });
+  });
+})();

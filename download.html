@@ -51,7 +51,15 @@
             } catch (e) {}
           }
 
-          var properties = { $current_url: window.location.href, platform: platform };
+          // $raw_user_agent is what PostHog's bot detection reads; without it every event sent
+          // this way was classed as automation. `automation` is the browser's own flag for being
+          // driven by automation software (headless test and scanning tools set it).
+          var properties = {
+            $current_url: window.location.href,
+            $raw_user_agent: navigator.userAgent,
+            platform: platform,
+            automation: navigator.webdriver === true,
+          };
           new URLSearchParams(window.location.search).forEach(function (value, key) {
             if (key.indexOf("utm_") === 0) properties[key] = value;
           });
