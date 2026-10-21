@@ -13,6 +13,22 @@
     {
       "source": "/redeem-code",
       "destination": "/api/redeem"
+    },
+    {
+      "source": "/stories",
+      "destination": "/api/stories"
+    },
+    {
+      "source": "/world/:slug",
+      "destination": "/api/article?scope=world&slug=:slug"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/news-sitemap.xml",
+      "destination": "/api/sitemap?type=news"
     }
   ],
   "headers": [

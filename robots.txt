@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /mockups/
+
+Sitemap: https://implica.app/sitemap.xml
+Sitemap: https://implica.app/news-sitemap.xml
