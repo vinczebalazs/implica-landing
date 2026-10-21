@@ -23,6 +23,14 @@
       "destination": "/api/article?scope=world&slug=:slug"
     },
     {
+      "source": "/hu/hirek",
+      "destination": "/api/stories?lang=hu"
+    },
+    {
+      "source": "/hu/vilag/:slug",
+      "destination": "/api/article?scope=world&lang=hu&slug=:slug"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },
