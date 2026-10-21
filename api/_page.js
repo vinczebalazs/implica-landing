@@ -17,9 +17,8 @@ const ANDROID_URL = "https://play.google.com/store/apps/details?id=com.flystraig
 
 // Vercel's edge cache holds the finished HTML; browsers keep it 5 minutes at most, since a browser
 // copy cannot be purged. A deploy purges the edge.
-// - An article whose story is still in the app's feed can be rewritten by the next hourly run.
-// - One whose story left the feed (`frozen`, decided by the API) never changes again; a week rather
-//   than forever only so its "More from World" links stay reasonably fresh.
+// - A page can be rewritten by any hourly run: pages are never closed (implica-be `web-pages`,
+//   2026-10-22), so the API now always says `frozen: false` and CACHE_FROZEN goes unused.
 // - Lists and sitemaps announce new articles, so they stay short.
 const CACHE_LIVE = "public, max-age=300, s-maxage=3600, stale-while-revalidate=600";
 const CACHE_FROZEN = "public, max-age=300, s-maxage=604800, stale-while-revalidate=86400";
@@ -70,6 +69,7 @@ const T = {
     pageOf: (page, total) => `PAGE ${page} OF ${total}`,
     shortAnswer: "THE SHORT ANSWER",
     inThisArticle: "IN THIS ARTICLE",
+    goDeeper: "GO DEEPER",
     whatHappened: "What happened",
     whyItMatters: "Why it matters",
     background: "The background",
@@ -126,6 +126,7 @@ const T = {
     pageOf: (page, total) => `${page}. OLDAL / ${total}`,
     shortAnswer: "RÖVIDEN",
     inThisArticle: "EBBEN A CIKKBEN",
+    goDeeper: "RÉSZLETESEBBEN",
     whatHappened: "Mi történt",
     whyItMatters: "Miért számít",
     background: "Az előzmények",
@@ -372,6 +373,10 @@ function articlePage(a) {
       .join(", "),
   );
 
+  // A turn page sits under its situation page (implica-be `web-pages`); each links to the other.
+  const parent = a.parent && a.parent.slug ? a.parent : null;
+  const subtopics = (a.subtopics || []).filter((x) => x.slug);
+
   const related = (a.related || [])
     .map(
       (r) =>
@@ -425,7 +430,13 @@ function articlePage(a) {
           <div class="glow glow-story" aria-hidden="true"></div>
           <div class="story-col">
             <nav class="crumbs mono-label" aria-label="Breadcrumb">
-              <a href="${c.list}">${esc(c.stories)}</a><span class="sep">/</span><span>${esc(scopeName.toUpperCase())}</span>${a.category ? `<span class="sep">/</span><span>${esc(String(a.category).toUpperCase())}</span>` : ""}
+              <a href="${c.list}">${esc(c.stories)}</a><span class="sep">/</span><span>${esc(scopeName.toUpperCase())}</span>${
+                parent
+                  ? `<span class="sep">/</span><a href="${esc(path(parent.slug))}">${esc(parent.title)}</a>`
+                  : a.category
+                    ? `<span class="sep">/</span><span>${esc(String(a.category).toUpperCase())}</span>`
+                    : ""
+              }
             </nav>
             <h1 class="story-h1">${esc(a.title)}</h1>
             <p class="story-standfirst">${esc(a.standfirst)}</p>
@@ -441,6 +452,12 @@ function articlePage(a) {
               <p class="eyebrow eyebrow-gold" id="short-answer"><span class="dot dot-gold"></span>${esc(c.shortAnswer)}</p>
               <p>${esc(a.shortAnswer)}</p>
             </section>
+
+            ${
+              subtopics.length
+                ? `<nav class="toc deeper" aria-label="${esc(c.goDeeper)}"><p class="eyebrow eyebrow-gold"><span class="dot dot-gold"></span>${esc(c.goDeeper)}</p><ol>${subtopics.map((x) => `<li><a href="${esc(path(x.slug))}">${esc(x.title)}</a></li>`).join("")}</ol></nav>`
+                : ""
+            }
 
             <nav class="toc" aria-label="${esc(c.inThisArticle)}">
               <p class="eyebrow eyebrow-ice"><span class="dot dot-ice"></span>${esc(c.inThisArticle)}</p>
