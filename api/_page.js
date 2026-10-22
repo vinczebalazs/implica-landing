@@ -191,9 +191,10 @@ async function api(path) {
 const APPLE_ICON = `<svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"></path></svg>`;
 const PLAY_ICON = `<svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.62,1.71L13.05,11.14L3.63,20.56C3.24,20.32 3,19.9 3,19.42V2.85C3,2.38 3.24,1.96 3.62,1.71M14.11,12.2L16.5,14.59L5.5,20.84L14.11,12.2M17.77,9.1L20.16,10.44C20.68,10.73 21,11.28 21,11.87C21,12.47 20.68,13 20.16,13.31L17.79,14.65L15.17,12.03L17.77,9.1M5.5,2.96L16.5,9.21L14.15,11.09L5.5,2.96Z"></path></svg>`;
 
-// Owner's copy, 2026-10-21; the Hungarian is its translation.
-function cta(lang) {
-  const c = t(lang);
+// Owner's copy, 2026-10-21; the Hungarian is its translation. `copy` swaps in another title
+// (trusted HTML) and lede, for pages that aren't stories.
+function cta(lang, copy = {}) {
+  const c = { ...t(lang), ...(copy.title && { ctaTitle: copy.title }), ...(copy.lede && { ctaLede: copy.lede }) };
   return `
         <section class="cta-outer story-cta" id="get">
           <div class="wrap cta">
@@ -265,6 +266,7 @@ function layout({ lang = "en", title, description, canonical, head = "", main, r
           </a>
           <nav class="nav" id="primary-nav" aria-label="Primary">
             <a class="nav-link" href="${c.list}">${esc(c.stories)}</a>
+            ${lang === "en" ? `<a class="nav-link" href="/blog">BLOG</a>` : ""}
             <a class="nav-link" href="${esc(switchTo)}" hreflang="${other}" lang="${other}" title="${esc(t(other).switchName)}">${esc(t(other).switchLabel)}</a>
           </nav>
           <a class="btn btn-gold btn-sm header-cta" href="#get" data-store="auto">${esc(c.getApp)}</a>
@@ -278,6 +280,7 @@ function layout({ lang = "en", title, description, canonical, head = "", main, r
           <span class="mono-label copyright">© ${new Date().getUTCFullYear()} IMPLICA</span>
           <nav class="footer-links" aria-label="Footer">
             <a href="${c.list}">${esc(c.stories)}</a>
+            ${lang === "en" ? `<a href="/blog">BLOG</a>` : ""}
             <a href="/privacy" hreflang="en">${esc(c.privacy)}</a>
             <a href="/terms" hreflang="en">${esc(c.terms)}</a>
             <a class="footer-email" href="mailto:hello@implica.app">HELLO@IMPLICA.APP</a>
@@ -553,6 +556,9 @@ module.exports = {
   api,
   esc,
   day,
+  jsonLd,
+  layout,
+  cta,
   articlePage,
   listPage,
   messagePage,

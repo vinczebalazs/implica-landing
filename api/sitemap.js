@@ -9,6 +9,8 @@
    ========================================================================== */
 
 const { api, esc, articlePath, ORIGIN, CACHE_LIST } = require("./_page");
+// Written by scripts/build-blog.mjs alongside the /blog pages it generates.
+const BLOG = require("./_blog.json");
 
 const SCOPE = "world";
 const PAIRED = [{ en: "/", hu: "/hu" }, { en: "/stories", hu: "/hu/hirek" }];
@@ -80,6 +82,7 @@ ${fresh
   const lines = [
     ...PAIRED.flatMap((p) => urls(p)),
     ...SINGLE.flatMap((p) => urls({ en: p })),
+    ...BLOG.flatMap((b) => urls({ en: b.path }, { en: b.modified })),
     ...articles.flatMap((a) => {
       const paths = { en: articlePath("en", SCOPE, a.slug) };
       const lastmod = { en: a.modifiedAt };

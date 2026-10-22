@@ -387,6 +387,13 @@ mark {
 .nav-link:hover {
   color: var(--text-3);
 }
+/* With every link showing, the home header pushes the CTA onto a second line below this width.
+   FEATURES only jumps further down the same page, so it is the one to drop. */
+@media (max-width: 440px) {
+  .nav-link-wide {
+    display: none;
+  }
+}
 
 /* --- Hero ----------------------------------------------------------------- */
 
@@ -1557,6 +1564,102 @@ mark {
   padding: 40px 0;
   font-size: 17px;
   color: var(--muted);
+}
+
+/* --- Blog guides (/blog/:slug) — extends the story page styles ------------ */
+
+.glance {
+  margin: 0 0 18px;
+  overflow-x: auto;
+  border: 1px solid var(--hair-2);
+  border-radius: 18px;
+  background: var(--surface-2);
+}
+.glance table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.glance th,
+.glance td {
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--hair);
+  color: var(--muted);
+}
+.glance thead th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.glance tbody th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.glance tbody th a {
+  color: var(--text-2);
+}
+.glance tbody th a:hover {
+  color: var(--gold);
+}
+.glance tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.prose .good-for {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: -6px 0 22px;
+  font-size: 16px;
+  color: var(--text-2);
+}
+.prose .good-for .mono-label {
+  color: var(--gold);
+}
+
+.pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 28px;
+  margin: 26px 0 8px;
+  padding: 22px 26px 6px;
+  border-radius: 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--hair-2);
+}
+.pros-cons .mono-label {
+  margin-bottom: 12px;
+  color: var(--muted-2);
+}
+.prose .pros-cons ul.bullets li {
+  font-size: 15px;
+  line-height: 1.6;
+}
+.prose .pros-cons ul.bullets li::before {
+  top: 10px;
+}
+.prose .pros-cons div + div ul.bullets li::before {
+  background: var(--dim);
+}
+
+.prose .price {
+  margin-top: 14px;
+  font-size: 15px;
+}
+
+@media (max-width: 999px) {
+  .pros-cons {
+    grid-template-columns: 1fr;
+    padding: 20px 20px 4px;
+  }
 }
 
 /* --- Footer --------------------------------------------------------------- */
