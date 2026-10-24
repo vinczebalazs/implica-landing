@@ -21,10 +21,10 @@
 
 const ORIGIN = "https://implica.app";
 
-// 'world' for the global feed, or a locale the app round-trips ('hu-HU', 'en-HU').
+// A named scope ('world', 'tech', 'science'), or a locale the app round-trips ('hu-HU', 'en-HU').
 // Case matters downstream: briefing.service resolveLocale() rejects anything but
 // lowercase-lang/uppercase-region, so both halves pass through untouched.
-const SCOPE = /^(world|[a-z]{2}-[A-Z]{2})$/;
+const SCOPE = /^(world|tech|science|[a-z]{2}-[A-Z]{2})$/;
 // Code-minted 8 hex, per the Story schema. Identity keys on it, forever, and the
 // lookup is an exact match — so this is passed through verbatim too.
 const EVENT_ID = /^[0-9a-f]{8}$/;
